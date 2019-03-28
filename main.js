@@ -189,8 +189,6 @@ function drawMotionGraph() {
     runable = false;
   }
 
-  console.log('Runs', index, position);
-
   if (runable) {
     context.clearRect(0, 0, width, height);
     index++;
@@ -280,14 +278,98 @@ function resetMotion() {
 
   drawMotionGraph();
 }
+// Set the initial velocity
+function setInitialVelocity() {
+  const display = document.getElementById('initial-velocity');
+  const newValue = document.getElementById('velocity-input').value;
+  display.innerHTML = newValue;
+  index = 0;
+  initialVelocity = newValue;
+  initialVelocityX = newValue * Math.cos(theta);
+  initialVelocityY = newValue * Math.sin(theta);
+  totalTime = -2.0 * initialVelocityY / gravity;
+  maxHeight = -initialVelocityY * initialVelocityY / (2.0 * gravity);
+  resetMotion();
+}
+// Set the initial angle
+function setInitialAngle() {
+  const display = document.getElementById('initial-angle');
+  const newValue = document.getElementById('angle-input').value;
+  display.innerHTML = newValue;
+  index = 0;
+  angle = newValue;
+  theta = angle * Math.PI / 180.0;
+  initialVelocityX = initialVelocity * Math.cos(theta);
+  initialVelocityY = initialVelocity * Math.sin(theta);
+  totalTime = -2.0 * initialVelocity / gravity;
+  maxHeight = -initialVelocityY * initialVelocityY / (2.0 * gravity);
+  reset();
+}
 
+/*!------------------
+ * Adding the initial value manipulator to the world
+ */
+// Add the manipulator wrapper
+const manipulator = document.createElement('div');
+manipulator.align = 'center';
+// Add the initial value of velocity manipulator
+manipulator.append(document.createTextNode('Initial velocity:'));
+manipulator.append(document.createElement('br'));
+manipulator.append(document.createTextNode('20'));
+
+const velocityInput = document.createElement('input');
+velocityInput.type = 'range';
+velocityInput.min = 20;
+velocityInput.max = 50;
+velocityInput.step = 1;
+velocityInput.style.width = '200px';
+velocityInput.value = 20;
+velocityInput.id = 'velocity-input';
+velocityInput.oninput = setInitialVelocity;
+velocityInput.onchange = setInitialVelocity;
+
+manipulator.append(velocityInput);
+manipulator.append(document.createTextNode('50'));
+manipulator.append(document.createElement('br'));
+
+const initialVelocityVal = document.createElement('div');
+initialVelocityVal.id = 'initial-velocity';
+initialVelocityVal.innerHTML = 20;
+manipulator.append(initialVelocityVal);
+manipulator.append(document.createElement('br'));
+// Add the initial angle manipulator
+manipulator.append(document.createTextNode('Initial angle:'));
+manipulator.append(document.createElement('br'));
+manipulator.append(document.createTextNode('0'));
+
+const angleInput = document.createElement('input');
+angleInput.type = 'range';
+angleInput.min = 0;
+angleInput.max = 90;
+angleInput.step = 1;
+angleInput.style.width = '200px';
+angleInput.value = 45;
+angleInput.id = 'angle-input';
+angleInput.oninput = setInitialAngle;
+angleInput.onchange = setInitialAngle;
+
+manipulator.append(angleInput);
+manipulator.append(document.createTextNode('45'));
+manipulator.append(document.createElement('br'));
+
+const initialAngleVal = document.createElement('div');
+initialAngleVal.id = 'initial-angle';
+initialAngleVal.innerHTML = 45;
+manipulator.append(initialAngleVal);
+manipulator.append(document.createElement('br'));
+
+body.append(manipulator);
 /*!------------------
  * Adding the media player to the world
  */
 // Player media wrapper
 const player = document.createElement('div');
 player.align = 'center';
-player.style.block = 'inline-block';
 // Step backward button
 const backwardButton = document.createElement('button');
 backwardButton.append(document.createTextNode('<< Backward'));
