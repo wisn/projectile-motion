@@ -354,7 +354,7 @@ angleInput.oninput = setInitialAngle;
 angleInput.onchange = setInitialAngle;
 
 manipulator.append(angleInput);
-manipulator.append(document.createTextNode('45'));
+manipulator.append(document.createTextNode('90'));
 manipulator.append(document.createElement('br'));
 
 const initialAngleVal = document.createElement('div');
