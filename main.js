@@ -303,7 +303,7 @@ function setInitialAngle() {
   initialVelocityY = initialVelocity * Math.sin(theta);
   totalTime = -2.0 * initialVelocity / gravity;
   maxHeight = -initialVelocityY * initialVelocityY / (2.0 * gravity);
-  reset();
+  resetMotion();
 }
 
 /*!------------------
@@ -320,7 +320,7 @@ manipulator.append(document.createTextNode('20'));
 const velocityInput = document.createElement('input');
 velocityInput.type = 'range';
 velocityInput.min = 20;
-velocityInput.max = 50;
+velocityInput.max = 35;
 velocityInput.step = 1;
 velocityInput.style.width = '200px';
 velocityInput.value = 20;
@@ -329,7 +329,7 @@ velocityInput.oninput = setInitialVelocity;
 velocityInput.onchange = setInitialVelocity;
 
 manipulator.append(velocityInput);
-manipulator.append(document.createTextNode('50'));
+manipulator.append(document.createTextNode('35'));
 manipulator.append(document.createElement('br'));
 
 const initialVelocityVal = document.createElement('div');
